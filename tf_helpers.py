@@ -32,7 +32,7 @@ def bow(sentence, words, show_details=False):
     return(np.array(bag))
 
 ERROR_THRESHOLD = 0.25
-def classify(sentence, model):
+def classify(sentence, model, words):
     # generate probabilities from the model
     results = model.predict([bow(sentence, words)])[0]
     # filter out predictions below a threshold
@@ -45,8 +45,8 @@ def classify(sentence, model):
     # return tuple of intent and probability
     return return_list
 
-def response(sentence, model, intents, userID='123', show_details=False, context={}):
-    results = classify(sentence, model)
+def response(sentence, model, intents, words, userID='123', show_details=False, context={}):
+    results = classify(sentence, model, words)
     ret = {}
     # if we have a classification then find the matching intent tag
     if results:

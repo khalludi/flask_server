@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask
+from flask import Flask, request 
 
 # things we need for NLP
 import nltk
@@ -11,7 +11,7 @@ import numpy as np
 import tflearn
 import tensorflow as tf
 import random
-import tf_helpers
+from tf_helpers import *
 
 # restore all of our data structures
 import pickle
@@ -53,7 +53,7 @@ def tf_predict():
     except ValueError:
         abort(400)
     
-    res = response(requests.json['message'], model, intents, request.json['user-id'], False, context)
+    res = response(request.json['message'], model, intents, words, request.json['user-id'], False, context)
     ret = {
         'message': res['requests']
     }
