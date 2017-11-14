@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, request 
+from flask import Flask, request, jsonify 
 
 # things we need for NLP
 import nltk
@@ -44,7 +44,8 @@ app = Flask(__name__)
 
 @app.route('/tf_model/predict', methods=['POST'])
 def tf_predict():
-    if not request.json or not 'message' in request.json or not 'context' in request.json or not 'user-id' in request.json:
+    global context
+    if not request.json or not 'message' in request.json or not 'user-id' in request.json:
         abort(400)
     if request.content_type != 'application/json':
         abort(400)
@@ -55,8 +56,9 @@ def tf_predict():
     
     res = response(request.json['message'], model, intents, words, request.json['user-id'], False, context)
     ret = {
-        'message': res['requests']
+        'message': res['message']
     }
+    context = res['context']
     
     return jsonify(ret)
 

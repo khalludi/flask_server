@@ -8,6 +8,7 @@ import numpy as np
 import tflearn
 import tensorflow as tf
 import random
+import pickle
 
 def clean_up_sentence(sentence):
     # tokenize the pattern
@@ -33,6 +34,8 @@ def bow(sentence, words, show_details=False):
 
 ERROR_THRESHOLD = 0.25
 def classify(sentence, model, words):
+    data = pickle.load( open( "training_data", "rb" ) )
+    classes = data['classes']
     # generate probabilities from the model
     results = model.predict([bow(sentence, words)])[0]
     # filter out predictions below a threshold
