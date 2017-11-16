@@ -46,13 +46,13 @@ app = Flask(__name__)
 def tf_predict():
     global context
     if not request.json or not 'message' in request.json or not 'user-id' in request.json:
-        abort(400)
+        abort(401)
     if request.content_type != 'application/json':
-        abort(400)
+        abort(402)
     try:
     	new_msg = json.loads(request.data)
     except ValueError:
-        abort(400)
+        abort(403)
     
     res = response(request.json['message'], model, intents, words, request.json['user-id'], False, context)
     ret = {
